@@ -2,15 +2,15 @@
 
 A super simple wrapper for the [Loopia XML RPC-API](https://www.loopia.se/api/) for PHP.
 
-Relies on [lstrojny/fxmlrpc](https://github.com/lstrojny/fxmlrpc) to make fast and efficient calls to the API. Requires PHP ^7.0.
+Relies on [lstrojny/fxmlrpc](https://github.com/lstrojny/fxmlrpc) to make fast and efficient calls to the API. Requires PHP ^7.0 (PHP 7.1 is recommended for better performance).
 
-### Installation
+## Installation
 
 ``` bash
 $ composer require olssonm/loopia-api
 ```
 
-### Usage
+## Usage
 
 Using the package is straight forward – just include the client, create an instance and make your calls.
 
@@ -24,6 +24,16 @@ All methods are listed over at the [Loopia API-documentation](https://www.loopia
     $response = (new Client('username', 'password'))
         ->getDomains()
         ->getResponse();
+```
+
+If needed, you may of course separate your code, like so:
+
+``` php
+    use Olssonm\LoopiaApi\Client;
+
+    $client = new Client('username', 'password');
+    $client->getDomains();
+    $response = $client->getResponse();
 ```
 
 **Check the zone records for a domain (with subdomain)**
@@ -52,10 +62,18 @@ All methods are listed over at the [Loopia API-documentation](https://www.loopia
         ->getResponse();
 ```
 
-### Testing
+## Testing
 
 Use your username, password a domain and subdomain as arguments when running tests. For example:
 
 ```bash
 vendor/bin/phpunit ./tests/LoopiaApiTests username password example.com www
 ```
+
+Of course the domain under testing needs to be owned by your Loopia account.
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+© 2018 [Marcus Olsson](https://marcusolsson.me).
