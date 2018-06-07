@@ -48,6 +48,17 @@ class LoopiaApiTests extends TestCase {
     }
 
     /* @test */
+    public function test_get_domains_multiline()
+    {
+        $client = new Client($this->argv[2], $this->argv[3]);
+        $client->getDomains();
+        $response = $client->getResponse();
+
+        $this->assertInternalType('array', $response);
+        $this->assertGreaterThan(0, $response);
+    }
+
+    /* @test */
     public function test_get_zone_records()
     {
         // Arguments; username password domain recordsubdomain, example:
