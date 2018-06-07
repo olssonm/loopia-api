@@ -70,4 +70,16 @@ class LoopiaApiTests extends TestCase {
         $this->assertArrayHasKey('rdata', $response[0]);
         $this->assertArrayHasKey('record_id', $response[0]);
     }
+
+    /* @test */
+    public function test_update_name_servers()
+    {
+        $response = (new Client($this->argv[2], $this->argv[3]))
+            ->updateDNSServers($this->argv[4], ['ns1.loopia.se', 'ns2.loopia.se'])
+            ->getResponse();
+
+        $this->assertInternalType('string', $response);
+        $this->assertEquals('OK', $response);
+    }
+
 }

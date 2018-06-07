@@ -46,6 +46,16 @@ If needed, you may of course separate your code, like so:
         ->getResponse();
 ```
 
+**Update your DNS (name)-servers**
+
+``` php
+    use Olssonm\LoopiaApi\Client;
+
+    $response = (new Client('username', 'password'))
+        ->updateDNSServers('example.com', ['ns1.loopia.se', 'ns2.loopia.se'])
+        ->getResponse();
+```
+
 **Update your zone records**
 
 ``` php
@@ -70,7 +80,7 @@ Use your username, password a domain and subdomain as arguments when running tes
 vendor/bin/phpunit ./tests/LoopiaApiTests username password example.com www
 ```
 
-Of course the domain under testing needs to be owned by your Loopia account.
+Of course the domain under testing needs to be owned by your Loopia account. **Note:** The last test (`test_update_name_servers`) actually modifies your name servers, use with caution.
 
 ## License
 
