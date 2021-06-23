@@ -2,6 +2,9 @@
 
 namespace Olssonm\LoopiaApi;
 
+use fXmlRpc\Client as FXmlRpcClient;
+use GuzzleHttp\Client as GuzzleHttpClient;
+
 /**
  * Loopia API Client
  */
@@ -47,7 +50,15 @@ class Client
         $this->username = $username;
         $this->password = $password;
 
-        $this->rpcClient = new \fXmlRpc\Client(self::LOOPIA_API_ENDPOINT);
+        $httpClient = new GuzzleHttpClient();
+
+        $this->rpcClient = new FXmlRpcClient(
+            self::LOOPIA_API_ENDPOINT,
+            new \fXmlRpc\Transport\HttpAdapterTransport(
+                new \Http\Message\MessageFactory\DiactorosMessageFactory(),
+                new \Http\Adapter\Guzzle6\Client($httpClient)
+            )
+        );
     }
 
     /**

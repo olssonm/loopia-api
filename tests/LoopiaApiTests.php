@@ -6,15 +6,15 @@ use PHPUnit\Framework\TestCase;
 
 class LoopiaApiTests extends TestCase {
 
-    protected $argv;
+    protected $data;
 
-    public function setUp()
+    public function setUp(): void
     {
-        $this->argv = $_SERVER['argv'];
+        $this->data = $_SERVER['test_data'];
 
-        // $argv[1] (username) and $argv[2] (password) always need to be set
-        if (!isset($this->argv[2]) || !isset($this->argv[3])) {
-            throw new \Exception("Use username ans password as arguments for phpUnit", 1);
+        // $data[1] (username) and $data[2] (password) always need to be set
+        if (!isset($this->data['username']) || !isset($this->data['password'])) {
+            throw new \Exception("Use username and password as arguments for phpunit", 1);
         }
 
         parent::setUp();
@@ -25,36 +25,36 @@ class LoopiaApiTests extends TestCase {
     {
         $response = (new Client('username', 'password'))->getDomains()->getResponse();
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertEquals('AUTH_ERROR', $response[0]);
     }
 
     /* @test */
     public function test_bad_domain()
     {
-        $response = (new Client($this->argv[2], $this->argv[3]))->getDomain('example.com')->getResponse();
+        $response = (new Client($this->data['username'], $this->data['password']))->getDomain('example.com')->getResponse();
 
-        $this->assertInternalType('string', $response);
+        $this->assertIsString($response);
         $this->assertEquals('UNKNOWN_ERROR', $response);
     }
 
     /* @test */
     public function test_get_domains()
     {
-        $response = (new Client($this->argv[2], $this->argv[3]))->getDomains()->getResponse();
+        $response = (new Client($this->data['username'], $this->data['password']))->getDomains()->getResponse();
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertGreaterThan(0, $response);
     }
 
     /* @test */
     public function test_get_domains_multiline()
     {
-        $client = new Client($this->argv[2], $this->argv[3]);
+        $client = new Client($this->data['username'], $this->data['password']);
         $client->getDomains();
         $response = $client->getResponse();
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertGreaterThan(0, $response);
     }
 
@@ -63,9 +63,9 @@ class LoopiaApiTests extends TestCase {
     {
         // Arguments; username password domain recordsubdomain, example:
         // username password example.com @
-        $response = (new Client($this->argv[2], $this->argv[3]))->getZoneRecords($this->argv[4], $this->argv[5])->getResponse();
+        $response = (new Client($this->data['username'], $this->data['password']))->getZoneRecords($this->data['domain'], $this->data['flag'])->getResponse();
 
-        $this->assertInternalType('array', $response);
+        $this->assertIsArray($response);
         $this->assertGreaterThan(0, $response);
         $this->assertArrayHasKey('rdata', $response[0]);
         $this->assertArrayHasKey('record_id', $response[0]);
@@ -74,12 +74,11 @@ class LoopiaApiTests extends TestCase {
     /* @test */
     public function test_update_name_servers()
     {
-        $response = (new Client($this->argv[2], $this->argv[3]))
-            ->updateDNSServers($this->argv[4], ['ns1.loopia.se', 'ns2.loopia.se'])
+        $response = (new Client($this->data['username'], $this->data['password']))
+            ->updateDNSServers($this->data['domain'], ['ns1.loopia.se', 'ns2.loopia.se'])
             ->getResponse();
 
-        $this->assertInternalType('string', $response);
+        $this->assertIsString($response);
         $this->assertEquals('OK', $response);
     }
-
 }

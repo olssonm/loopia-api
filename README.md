@@ -2,7 +2,7 @@
 
 A super simple wrapper for the [Loopia XML RPC-API](https://www.loopia.se/api/) for PHP.
 
-Relies on [lstrojny/fxmlrpc](https://github.com/lstrojny/fxmlrpc) to make fast and efficient calls to the API. Requires PHP ^7.0 (PHP 7.1 is recommended for better performance).
+Relies on [lstrojny/fxmlrpc](https://github.com/lstrojny/fxmlrpc) to make fast and efficient calls to the API. Requires PHP ^7.2 or PHP ^8.0.
 
 ## Installation
 
@@ -74,10 +74,10 @@ If needed, you may of course separate your code, like so:
 
 ## Testing
 
-Use your username, password a domain and subdomain as arguments when running tests. For example:
+Copy `/tests/boot.example.php` to `/tests/boot.php` and edit your settings. Then run:
 
-```bash
-vendor/bin/phpunit ./tests/LoopiaApiTests username password example.com www
+``` bash
+vendor/bin/phpunit --bootstrap ./tests/boot.php ./tests/LoopiaApiTests.php
 ```
 
 Of course the domain under testing needs to be owned by your Loopia account. **Note:** The last test (`test_update_name_servers`) actually modifies your name servers, use with caution.
@@ -86,4 +86,4 @@ Of course the domain under testing needs to be owned by your Loopia account. **N
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-© 2018 [Marcus Olsson](https://marcusolsson.me).
+© 2021 [Marcus Olsson](https://marcusolsson.me).
